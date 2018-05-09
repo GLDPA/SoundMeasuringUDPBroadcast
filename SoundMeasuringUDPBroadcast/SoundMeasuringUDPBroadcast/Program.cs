@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.Remoting.Channels;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,16 +17,18 @@ namespace SoundMeasuringUDPBroadcast
         {
             var pm = new Program();
             // laver en udpclient der kan læse på en specifik port
-            UdpClient udpReceiver = new UdpClient(7000);
+            UdpClient udpReceiver = new UdpClient(9877);
 
             //Tillader os at læse datagrammer fra hvilkensom helts ip-addresse, på port 7000
-            IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 7000);
+            IPAddress ip = IPAddress.Parse("192.168.6.193");
+            IPEndPoint RemoteIpEndPoint = new IPEndPoint(ip, 9877);
 
 
 
 
             try
             {
+                Console.WriteLine("Server is online");
                 while (true)
                 {
 
@@ -46,7 +49,7 @@ namespace SoundMeasuringUDPBroadcast
                 Console.WriteLine(e);
                 throw;
             }
-           
+            
 
         }
 
@@ -64,7 +67,7 @@ namespace SoundMeasuringUDPBroadcast
                 "Server=tcp:davids-sql-server.database.windows.net,1433;Initial Catalog=Davids sql server;Persist Security Info=False;User ID=davidmalmberg;Password=Dak/Tha12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             using (var connection = new SqlConnection(connectionstring))
             {
-                var sqlQuery = "INSERT INTO [dbo].[measurments] (Time,Temperatur, Humidity) VALUES(@Time, @Temperatur, @Humidity)";
+                var sqlQuery = "INSERT INTO [dbo].[measurments] (Time,Temperature) VALUES(@Time, @Temperature)";
                 using (var command = new SqlCommand(sqlQuery,connection))
                 {
                     command.Parameters.AddWithValue("@Time", time);
