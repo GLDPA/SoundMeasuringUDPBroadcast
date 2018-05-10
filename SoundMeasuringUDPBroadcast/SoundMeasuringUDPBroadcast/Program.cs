@@ -20,7 +20,7 @@ namespace SoundMeasuringUDPBroadcast
             UdpClient udpReceiver = new UdpClient(9877);
 
             //Tillader os at læse datagrammer fra hvilkensom helts ip-addresse, på port 7000
-            IPAddress ip = IPAddress.Parse("192.168.6.193");
+            IPAddress ip = IPAddress.Parse("192.168.3.153");
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(ip, 9877);
 
 
@@ -55,10 +55,12 @@ namespace SoundMeasuringUDPBroadcast
 
         
 
-        public int InsertDataInDatabase(string temprature)
+        public int InsertDataInDatabase(string temperature)
         {
-            var time = DateTime.Now.ToShortTimeString();
-            if (time == null || temprature == null)
+            //int id = 0;
+            //int ID = id++;
+            var Date = DateTime.Now.ToShortTimeString();
+            if (Date == null || temperature == null)
             {
                 throw new ArgumentException("Cannot insert null");
             }
@@ -67,12 +69,12 @@ namespace SoundMeasuringUDPBroadcast
                 "Server=tcp:davids-sql-server.database.windows.net,1433;Initial Catalog=Davids sql server;Persist Security Info=False;User ID=davidmalmberg;Password=Dak/Tha12;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             using (var connection = new SqlConnection(connectionstring))
             {
-                var sqlQuery = "INSERT INTO [dbo].[measurments] (Time,Temperature) VALUES(@Time, @Temperature)";
+                var sqlQuery = "INSERT INTO [dbo].[measurments] (Date,Temperature) VALUES(@Date, @Temperature)";
                 using (var command = new SqlCommand(sqlQuery,connection))
                 {
-                    command.Parameters.AddWithValue("@Time", time);
-                    command.Parameters.AddWithValue("@Temprature", temprature);
-                    //command.Parameters.AddWithValue("@Humidity", humidity);
+                    command.Parameters.AddWithValue("@Date", Date);
+                    command.Parameters.AddWithValue("@Temperature", double.Parse(temperature));
+                    //command.Parameters.AddWithValue("@Id", ID);
 
                     connection.Open();
                     var result = command.ExecuteNonQuery();
@@ -84,6 +86,11 @@ namespace SoundMeasuringUDPBroadcast
                 }
             }
 
+        }
+
+        public int NextId(int id)
+        {
+            return id + 1;
         }
         
     }
