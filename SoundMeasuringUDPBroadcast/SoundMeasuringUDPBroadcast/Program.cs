@@ -73,7 +73,7 @@ namespace SoundMeasuringUDPBroadcast
                 using (var command = new SqlCommand(sqlQuery,connection))
                 {
                     command.Parameters.AddWithValue("@Date", Date);
-                    command.Parameters.AddWithValue("@Temperature", double.Parse(temperature));
+                    command.Parameters.AddWithValue("@Temperature", double.Parse(temperature + "f"));
                     //command.Parameters.AddWithValue("@Id", ID);
 
                     connection.Open();
