@@ -20,7 +20,7 @@ namespace SoundMeasuringUDPBroadcast
             UdpClient udpReceiver = new UdpClient(9877);
 
             //Tillader os at læse datagrammer fra hvilkensom helts ip-addresse, på port 7000
-            IPAddress ip = IPAddress.Parse("192.168.3.153");
+            IPAddress ip = IPAddress.Parse("192.168.6.193");
             IPEndPoint RemoteIpEndPoint = new IPEndPoint(ip, 9877);
 
 
@@ -73,7 +73,7 @@ namespace SoundMeasuringUDPBroadcast
                 using (var command = new SqlCommand(sqlQuery,connection))
                 {
                     command.Parameters.AddWithValue("@Date", Date);
-                    command.Parameters.AddWithValue("@Temperature", double.Parse(temperature + "f"));
+                    command.Parameters.AddWithValue("@Temperature", double.Parse(temperature));
                     //command.Parameters.AddWithValue("@Id", ID);
 
                     connection.Open();
