@@ -40,8 +40,8 @@ namespace SoundMeasuringUDPBroadcast
                     Console.WriteLine("Data processed");
                     Console.WriteLine("Recorded Data" + receivedData);
                     if (receivedData.Equals("STOP.Secret")) throw new Exception("Receiver stopped");
-                    int temp = int.Parse(receivedData) / 10;
-                    string acutaltTemp =  temp.ToString("27");
+                    var temp = double.Parse(receivedData) / 10;
+                    var acutaltTemp =  temp.ToString("27");
                     pm.InsertDataInDatabase(acutaltTemp);
                 }
             }
