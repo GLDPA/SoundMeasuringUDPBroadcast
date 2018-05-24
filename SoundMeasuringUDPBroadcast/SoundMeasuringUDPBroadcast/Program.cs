@@ -60,7 +60,8 @@ namespace SoundMeasuringUDPBroadcast
         {
             //int id = 0;
             //int ID = id++;
-            var Date = DateTime.Today.ToLongDateString();
+            var Date = DateTime.Today.ToString();
+            Date = Date.Remove(10);
             if (Date == null || temperature == null)
             {
                 throw new ArgumentException("Cannot insert null");
